@@ -1,0 +1,12 @@
+{
+  "path_datacube": "/home/emanuele/owncloud/src/test_python/",
+  "filename_datacube": "icos_datacube.csv",
+  "data_type_dictionary": {
+    "14C": "carbon_14",
+    "CH4": "methane",
+    "CO": "carbon_monoxide",
+    "CO2": "carbon_dioxide",
+    "MTO": "meteorological_variables"
+  },
+  "path_output": "/tmp/"
+}

@@ -21,7 +21,7 @@ setuptools.setup(
     author="CNR IMAA",
     author_email="emanuele.tramutola@imaa.cnr.it",
     license='ECMWF',
-    url="....git",
+    url="https://github.com/emanueletramutola/icos_api.git",
     package_dir={f'{app_name}': f'lib/{app_name}'},
     packages=setuptools.find_packages('lib'),
     install_requires=[

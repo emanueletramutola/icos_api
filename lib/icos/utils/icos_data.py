@@ -17,9 +17,7 @@ import lib.icos.config as conf
 def get_data(params):
     config = conf.get_config()
 
-    if not Path(config.path_datacube).is_file():
-        # the file does not exist. Proceed to create the datacube
-        build_datacube()
+    check_datacube_exists()
 
     bb = pd.read_csv(config.path_datacube, dtype=str)
 
@@ -151,3 +149,17 @@ def build_datacube():
                     data[columns_to_export] \
                         .drop_duplicates() \
                         .to_csv('icos_datacube.csv', columns=columns_to_export, index=False, header=False, mode='a')
+
+
+def check_datacube_exists():
+    config = conf.get_config()
+
+    if not Path(config.path_datacube).is_file():
+        # the file does not exist. Proceed to create the datacube
+        build_datacube()
+
+
+def get_datacube():
+    check_datacube_exists()
+
+    return config.path_datacube

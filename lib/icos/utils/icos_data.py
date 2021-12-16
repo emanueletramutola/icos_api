@@ -10,8 +10,8 @@ import pandas as pd
 import requests
 from icoscp.sparql.runsparql import RunSparql
 
-import icos_query
-import lib.icos.config as conf
+from icos.utils import icos_query
+from icos import config as conf
 
 
 def get_data(params):
@@ -19,7 +19,7 @@ def get_data(params):
 
     check_datacube_exists()
 
-    bb = pd.read_csv(config.path_datacube, dtype=str)
+    bb = pd.read_csv(os.path.join(config.path_datacube, config.filename_datacube), dtype=str)
 
     cc = bb.query(get_filter(params))
 
@@ -93,7 +93,7 @@ def build_datacube():
 
     columns_to_export = ['Year', 'Month', 'Day', 'Site', 'Station_name', 'Latitude', 'Longitude', 'Data_type', 'Url']
 
-    f = open(config.filename_datacube, "w")
+    f = open(os.path.join(config.path_datacube, config.filename_datacube), "w")
     f.write(",".join(columns_to_export) + os.linesep)
     f.close()
 
@@ -113,8 +113,8 @@ def build_datacube():
             r = requests.get(url)
 
             with closing(r), zipfile.ZipFile(io.BytesIO(r.content)) as archive:
-                file = archive.infolist()[0]
-                with archive.open(file, "r") as fo:
+                _file = archive.infolist()[0]
+                with archive.open(_file, "r") as fo:
                     csv = fo.read()
                     rows = csv.decode('UTF-8').split('\n')
 
@@ -148,13 +148,13 @@ def build_datacube():
 
                     data[columns_to_export] \
                         .drop_duplicates() \
-                        .to_csv('icos_datacube.csv', columns=columns_to_export, index=False, header=False, mode='a')
+                        .to_csv(os.path.join(config.path_datacube, config.filename_datacube), columns=columns_to_export, index=False, header=False, mode='a')
 
 
 def check_datacube_exists():
     config = conf.get_config()
 
-    if not Path(config.path_datacube).is_file():
+    if not Path(os.path.join(config.path_datacube, config.filename_datacube)).is_file():
         # the file does not exist. Proceed to create the datacube
         build_datacube()
 
@@ -162,4 +162,5 @@ def check_datacube_exists():
 def get_datacube():
     check_datacube_exists()
 
-    return config.path_datacube
+    return os.path.join(config.path_datacube, config.filename_datacube)
+

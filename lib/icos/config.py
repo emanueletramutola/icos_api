@@ -15,7 +15,7 @@ class Configuration:
 
 
 def get_config():
-    with open('config.json') as f:
+    with open('/etc/cds/db-dataset/config.json') as f:
         raw_cfg = json.load(f)
 
     converters = {

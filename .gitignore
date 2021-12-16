@@ -1,0 +1,5 @@
+build/
+.idea/
+*.pycache
+icos.egg-info
+

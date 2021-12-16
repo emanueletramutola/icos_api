@@ -25,8 +25,8 @@ setuptools.setup(
     package_dir={f'{app_name}': f'lib/{app_name}'},
     packages=setuptools.find_packages('lib'),
     install_requires=[
-        'pandas', 'hug', 'dacite'
-        'requests', 'icoscp.sparql.runsparql'
+        'pandas', 'hug', 'dacite',
+        'requests', 'icoscp'
     ],
     classifiers=[
         'Development Status :: Alpha',
